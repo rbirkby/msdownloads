@@ -24,7 +24,7 @@ function(errors, window) {
   http.createServer(function(req, res) {
     res.writeHead(200, {'Content-Type':'text/xml'});
     res.end(content);
-  }).listen(8080);
+  }).listen(process.env.PORT || 8080);
 });
 
 

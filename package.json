@@ -3,6 +3,6 @@
   "version": "0.0.1",
   "dependencies": {
     "jsdom": "0.2.4",
-    "rss": "0.01"
+    "rss": "0.0.1"
   }
 }

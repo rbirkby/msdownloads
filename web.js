@@ -2,7 +2,7 @@ var http = require("http");
 var jsdom = require("jsdom");
 var RSS = require("rss");
 
-console.log(new Date() + ": starting msdownloads");
+console.log("starting msdownloads");
 
 var feed = new RSS({
   title:"Microsoft Download Center",
@@ -12,15 +12,17 @@ var feed = new RSS({
 var content = feed.xml(true);
 
 function updateContent() {
-  console.log(new Date() + ": refreshing content...");
+  console.log("refreshing content...");
 
   jsdom.env("http://www.microsoft.com/download/en/search.aspx?q=t%2a&p=0&r=50&t=&s=availabledate~Descending", [
     'http://code.jquery.com/jquery.min.js'
   ],
   function(errors, window) {
-    console.log(new Date() + ": retrieved content");
+    console.log("retrieved content");
+    var items = window.$("td.descTD");
+    console.log("got " + items.length + " items and " + errors.length + " errors");
 
-    window.$("td.descTD").each(function(index, item) {
+    items.each(function(index, item) {
       feed.item({
        title:window.$("div.link a", item).text(),
        description:window.$("div.description", item).text(),
@@ -28,12 +30,12 @@ function updateContent() {
       });
     });
     content = feed.xml(true);
-    console.log(new Date() + ": rss output updated");
+    console.log("rss output updated");
   });
 }
 
 updateContent();
-setInterval(updateContent, 60000 * 5);
+setInterval(updateContent, 60000 * 2);
 
 http.createServer(function(req, res) {
   res.writeHead(200, {'Content-Type':'text/xml'});

@@ -19,18 +19,22 @@ function updateContent() {
   ],
   function(errors, window) {
     console.log("retrieved content");
-    var items = window.$("td.descTD");
-    console.log("got " + items.length + " items and " + errors.length + " errors");
+    var $ = window.jQuery;
+
+    $(function () {
+    var items = $("td.descTD");
+    console.log("got " + items.length + " items");
 
     items.each(function(index, item) {
       feed.item({
-       title:window.$("div.link a", item).text(),
-       description:window.$("div.description", item).text(),
-       url:"http://www.microsoft.com" + window.$("div.link a", item).attr("href") + "#tm"
+       title:$("div.link a", item).text(),
+       description:$("div.description", item).text(),
+       url:"http://www.microsoft.com" + $("div.link a", item).attr("href") + "#tm"
       });
     });
     content = feed.xml(true);
     console.log("rss output updated");
+    });
   });
 }
 

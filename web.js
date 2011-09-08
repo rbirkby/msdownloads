@@ -1,6 +1,7 @@
 var http = require("http");
 var jsdom = require("jsdom");
 var RSS = require("rss");
+var express = require("express");
 
 console.log("starting msdownloads");
 
@@ -41,8 +42,10 @@ function updateContent() {
 updateContent();
 setInterval(updateContent, 60000 * 2);
 
-http.createServer(function(req, res) {
-  res.writeHead(200, {'Content-Type':'text/xml'});
-  res.end(content);
+var app = express.createServer(express.logger());
+
+app.get("/", function(req, res) {
+  res.contentType('text/xml');
+  res.send(content);
 }).listen(process.env.PORT || 8080);
 

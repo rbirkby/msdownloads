@@ -35,7 +35,10 @@ function updateContent() {
     });
     content = feed.xml(true);
     console.log("rss output updated");
-    });
+  
+  setTimeout(function() {window.close();}, 500);
+  });
+
   });
 }
 

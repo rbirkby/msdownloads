@@ -5,15 +5,17 @@ var express = require("express");
 
 console.log("starting msdownloads");
 
-var feed = new RSS({
-  title:"Microsoft Download Center",
-  description:"The twenty latest downloads from the Microsoft Download Center. (For personal and non-commercial use only.)",
-  feed_url:"http://www.microsoft.com/downloads"
-});
-var content = feed.xml(true);
+var content;
 
 function updateContent() {
   console.log("refreshing content...");
+
+  var feed = new RSS({
+    title:"Microsoft Download Center",
+    description:"The twenty latest downloads from the Microsoft Download Center. (For personal and non-commercial use only.)",
+    feed_url:"http://www.microsoft.com/downloads"
+  });
+  content = feed.xml(true);
 
   jsdom.env("http://www.microsoft.com/download/en/search.aspx?q=t%2a&p=0&r=50&t=&s=availabledate~Descending", [
     'http://code.jquery.com/jquery.min.js'

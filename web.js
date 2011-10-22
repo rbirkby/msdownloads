@@ -21,26 +21,29 @@ function updateContent() {
     'http://code.jquery.com/jquery.min.js'
   ],
   function(errors, window) {
-    console.log("retrieved content");
-    var $ = window.jQuery;
+    if(errors) {
+      console.log(errors);
+    } else {    
+      console.log("retrieved content");
+      var $ = window.jQuery;
 
-    $(function () {
-    var items = $("td.descTD");
-    console.log("got " + items.length + " items");
+      $(function () {
+	var items = $("td.descTD");
+	console.log("got " + items.length + " items");
 
-    items.each(function(index, item) {
-      feed.item({
-       title:$("div.link a", item).text(),
-       description:$("div.description", item).text(),
-       url:"http://www.microsoft.com" + $("div.link a", item).attr("href") + "#tm"
+	items.each(function(index, item) {
+	  feed.item({
+	   title:$("div.link a", item).text(),
+	   description:$("div.description", item).text(),
+	   url:"http://www.microsoft.com" + $("div.link a", item).attr("href") + "#tm"
+	  });
+	});
+	content = feed.xml(true);
+	console.log("rss output updated");
+      
+	setTimeout(function() {window.close();}, 500);
       });
-    });
-    content = feed.xml(true);
-    console.log("rss output updated");
-  
-  setTimeout(function() {window.close();}, 500);
-  });
-
+    }
   });
 }
 

@@ -1,21 +1,38 @@
 var http = require("http");
 var jsdom = require("jsdom");
-var RSS = require("rss");
+var jstoxml = require("jstoxml");
 var express = require("express");
 
 console.log("starting msdownloads");
 
+var poweredBy = '<?xml version="1.0"?><!--\n\n **** Powered by nodejs on Heroku ;-) **** \n\n-->';
 var content;
+
+function encode(s) {
+  return s.replace(/&/g, '&amp;')
+	  .replace(/</g, '&lt;')
+	  .replace(/>/g, '&gt;');
+}
 
 function updateContent() {
   console.log("refreshing content...");
 
-  var feed = new RSS({
-    title:"Microsoft Download Center",
-    description:"The twenty latest downloads from the Microsoft Download Center. (For personal and non-commercial use only.)",
-    feed_url:"http://www.microsoft.com/downloads"
-  });
-  if(!content) content = feed.xml(true);
+  var feed = {
+    _name: 'rss',
+    _attrs: {
+       version: '2.0'
+    },
+    _content: {
+      channel : [
+	{title: "Microsoft Download Center"},
+	{link: "http://www.microsoft.com/downloads/"},
+	{description: "The twenty latest downloads from the Microsoft Download Center. (For personal and non-commercial use only.)"},
+	{lastBuildDate: function() {return (new Date()).toGMTString(); }}
+      ]	
+    }
+  };  
+  
+  if(!content) content = poweredBy + jstoxml.toXML(feed, false, '');
 
   jsdom.env("http://www.microsoft.com/download/en/search.aspx?q=t%2a&p=0&r=50&t=&s=availabledate~Descending", [
     'http://code.jquery.com/jquery.min.js'
@@ -32,13 +49,15 @@ function updateContent() {
 	console.log("got " + items.length + " items");
 
 	items.each(function(index, item) {
-	  feed.item({
-	   title:$("div.link a", item).text(),
-	   description:$("div.description", item).text(),
-	   url:"http://www.microsoft.com" + $("div.link a", item).attr("href") + "#tm"
+	  feed._content.channel.push({
+	    item: {
+	      title:encode($("div.link a", item).text()),
+	      link:"http://www.microsoft.com" + $("div.link a", item).attr("href") + "#tm",
+	      description:encode($("div.description", item).text())
+	    }
 	  });
 	});
-	content = feed.xml(true);
+	content = poweredBy + jstoxml.toXML(feed, false, '');
 	console.log("rss output updated");
       
 	setTimeout(function() {window.close();}, 500);

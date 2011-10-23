@@ -26,7 +26,7 @@ function updateContent() {
       channel : [
 	{title: "Microsoft Download Center"},
 	{link: "http://www.microsoft.com/downloads/"},
-	{description: "The twenty latest downloads from the Microsoft Download Center. (For personal and non-commercial use only.)"},
+	{description: "The fifty latest downloads from the Microsoft Download Center. (For personal and non-commercial use only.)"},
 	{lastBuildDate: function() {return (new Date()).toGMTString(); }}
       ]	
     }
@@ -66,8 +66,10 @@ function updateContent() {
   });
 }
 
-updateContent();
-setInterval(updateContent, 60000 * 2);
+// Heroku appears to require a delay before we make a 
+// net connection
+setTimeout(updateContent, 5000);
+setInterval(updateContent, 60000 * 5);
 
 var app = express.createServer(express.logger());
 

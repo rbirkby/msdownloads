@@ -40,7 +40,7 @@ function updateContent() {
       console.log('Error ' + error);
       return; 
     }
-console.dir(response.headers);
+    
     if (response.headers["refresh"]) {
       console.log('Got a refresh header. Retrying');
       updateContent();

@@ -40,7 +40,11 @@ function updateContent() {
       console.log('Error ' + error);
       return; 
     }
-    console.log(body);
+    if (response.headers["Refresh"]) {
+      console.log('Got a refresh header. Retrying');
+      updateContent();
+      return;
+    }
 
     jsdom.env({
       html: body,

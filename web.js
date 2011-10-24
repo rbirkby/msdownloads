@@ -38,7 +38,9 @@ function updateContent() {
   request({ uri:"http://www.microsoft.com/download/en/search.aspx?q=t%2a&p=0&r=50&t=&s=availabledate~Descending" }, function (error, response, body) {
     if (error && response.statusCode !== 200) {
       console.log('Error ' + error);
+      return; 
     }
+    console.log(body);
 
     jsdom.env({
       html: body,

@@ -6,7 +6,7 @@ var express = require("express");
 
 console.log("starting msdownloads");
 
-var poweredBy = '<?xml version="1.0"?><!--\n\n **** Powered by nodejs on Heroku ;-) **** \n\n-->';
+var poweredBy = '<?xml version="1.0"?><!--\n\n **** Powered by nodejs on Heroku ;-) :-) **** \n\n-->';
 var content, itemCount = 0;
 
 function encode(s) {
@@ -89,11 +89,11 @@ setInterval(updateContent, 60000 * 5);
 var app = express.createServer(express.logger());
 
 app.get("/", function(req, res) {
-  if(req.headers["user-agent"].indexOf("FeedBurner") === -1) {
-    console.log("redirect client");
-    res.redirect("http://feeds.feedburner.com/MicrosoftDownloadCenter2", 307);
-    return;
-  }
+//  if(req.headers["user-agent"].indexOf("FeedBurner") === -1) {
+//    console.log("redirect client");
+//    res.redirect("http://feeds.feedburner.com/MicrosoftDownloadCenter2", 307);
+//    return;
+//  }
 
   if(itemCount === 0) updateContent();
 

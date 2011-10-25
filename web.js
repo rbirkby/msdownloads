@@ -7,7 +7,7 @@ var express = require("express");
 console.log("starting msdownloads");
 
 var poweredBy = '<?xml version="1.0"?><!--\n\n **** Powered by nodejs on Heroku ;-) **** \n\n-->';
-var content;
+var content, itemCount = 0;
 
 function encode(s) {
   return s.replace(/&/g, '&amp;')
@@ -61,7 +61,8 @@ function updateContent() {
 
 	  $(function () {
 	    var items = $("td.descTD");
-	    console.log("got " + items.length + " items");
+	    itemCount = items.length;
+	    console.log("got " + itemsCount + " items");
 
 	    items.each(function(index, item) {
 	      feed._content.channel.push({
@@ -88,6 +89,8 @@ setInterval(updateContent, 60000 * 5);
 var app = express.createServer(express.logger());
 
 app.get("/", function(req, res) {
+  if(itemCount === 0) updateContent();
+
   res.contentType('text/xml');
   res.send(content);
 }).listen(process.env.PORT || 8080);

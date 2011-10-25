@@ -89,6 +89,12 @@ setInterval(updateContent, 60000 * 5);
 var app = express.createServer(express.logger());
 
 app.get("/", function(req, res) {
+  if(req.headers["user-agent"].indexOf("FeedBurner") === -1) {
+    console.log("redirect client");
+    res.redirect("http://feeds.feedburner.com/MicrosoftDownloadCenter2", 307);
+    return;
+  }
+
   if(itemCount === 0) updateContent();
 
   res.contentType('text/xml');

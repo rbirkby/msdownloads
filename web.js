@@ -6,7 +6,7 @@ var express = require("express");
 
 console.log("starting msdownloads");
 
-var poweredBy = '<?xml version="1.0"?><!--\n\n **** Powered by nodejs on Heroku ;-) :-) **** \n\n-->';
+var poweredBy = '<?xml version="1.0"?><!--\n\n **** Powered by nodejs on Heroku ;-) **** \n\n-->';
 var content, itemCount = 0;
 
 function encode(s) {

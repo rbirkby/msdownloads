@@ -62,7 +62,7 @@ function updateContent() {
 	  $(function () {
 	    var items = $("td.descTD");
 	    itemCount = items.length;
-	    console.log("got " + itemsCount + " items");
+	    console.log("got " + itemCount + " items");
 
 	    items.each(function(index, item) {
 	      feed._content.channel.push({

@@ -4,7 +4,7 @@
   "dependencies": {
     "jsdom": "0.2.4",
     "request": "2.1.1",
-    "express": "2.2.0",
+    "express": "3.11.0",
     "jstoxml": "0.0.7"
   }
 }

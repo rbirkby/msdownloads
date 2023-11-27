@@ -2,7 +2,7 @@
   "name": "msdownloads",
   "version": "0.0.1",
   "dependencies": {
-    "jsdom": "0.2.4",
+    "jsdom": "16.6.0",
     "request": "2.1.1",
     "express": "2.2.0",
     "jstoxml": "0.0.7"
